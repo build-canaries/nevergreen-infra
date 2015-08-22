@@ -1,5 +1,5 @@
 - name: create nevergreen user
-  user: name=nevergreen
+  user: name=nevergreen shell=/bin/bash
 
 - name: add joejag ssh keys to nevergreen user
   authorized_key: user=nevergreen key=https://github.com/joejag.keys
