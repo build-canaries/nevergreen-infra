@@ -6,7 +6,7 @@ apt-get install python-pycurl ansible git zip unzip -y
 echo "---
 - hosts: all
   tasks:
-    - user: name=deploy groups=sudo
+    - user: name=deploy groups=sudo shell=/bin/bash
     - authorized_key: user=deploy key=https://github.com/joejag.keys
     - name: Allow passwordles sudo
       lineinfile: \"dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'\"
