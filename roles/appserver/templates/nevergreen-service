@@ -8,8 +8,8 @@
 # Description:       Nevergreen - {{ env }}
 ### END INIT INFO
 
-SCRIPT="AES_KEY={{ aes_key }} PORT={{ port }} java -jar /root/deploy/{{ env }}/nevergreen-standalone.jar"
-RUNAS=root
+SCRIPT="AES_KEY={{ aes_key }} PORT={{ port }} java -jar /home/nevergreen/deploy/{{ env }}/nevergreen-standalone.jar"
+RUNAS=nevergreen
 
 PIDFILE=/var/run/nevergreen-{{ env }}.pid
 LOGFILE=/var/log/nevergreen-{{ env }}.log
