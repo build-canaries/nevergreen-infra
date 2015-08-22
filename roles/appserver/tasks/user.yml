@@ -13,3 +13,6 @@
 
 - name: Create production directory
   file: path=/home/nevergreen/deploy/production state=directory mode=0755 owner=nevergreen group=nevergreen
+
+- name: Allow nevergreen to start the service
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%nevergreen' line='%nevergreen ALL=NOPASSWD: /etc/init.d/nevergreen*'"
