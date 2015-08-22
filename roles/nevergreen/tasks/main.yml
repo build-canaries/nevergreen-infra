@@ -5,4 +5,4 @@
   file: path=/home/nevergreen/deploy/{{ env }} state=directory mode=0755 owner=nevergreen group=nevergreen
 
 - name: Allow nevergreen to start the service
-  lineinfile: "dest=/etc/sudoers state=present regexp='^%nevergreen' line='%nevergreen ALL=NOPASSWD: /etc/init.d/nevergreen-{{ env }}'"
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%nevergreen*{{ env }}$' line='%nevergreen ALL=NOPASSWD: /etc/init.d/nevergreen-{{ env }}'"
