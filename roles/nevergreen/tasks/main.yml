@@ -1,0 +1,8 @@
+- name: create init.d script
+  action: template src=nevergreen-service dest=/etc/init.d/nevergreen-{{ env }} mode=0755
+
+- name: Create nevergreen deploy directory
+  file: path=/home/nevergreen/deploy/{{ env }} state=directory mode=0755 owner=nevergreen group=nevergreen
+
+- name: Allow nevergreen to start the service
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%nevergreen' line='%nevergreen ALL=NOPASSWD: /etc/init.d/nevergreen-{{ env }}'"

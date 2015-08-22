@@ -7,12 +7,3 @@
 - name: add snapci ssk keys to nevergreen user
   authorized_key: user=nevergreen
                   key="{{ lookup('file', 'snapci.pub') }}"
-
-- name: Create staging directory
-  file: path=/home/nevergreen/deploy/staging state=directory mode=0755 owner=nevergreen group=nevergreen
-
-- name: Create production directory
-  file: path=/home/nevergreen/deploy/production state=directory mode=0755 owner=nevergreen group=nevergreen
-
-- name: Allow nevergreen to start the service
-  lineinfile: "dest=/etc/sudoers state=present regexp='^%nevergreen' line='%nevergreen ALL=NOPASSWD: /etc/init.d/nevergreen*'"
