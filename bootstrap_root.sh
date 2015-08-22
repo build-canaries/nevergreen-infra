@@ -17,8 +17,8 @@ echo "---
       notify: Restart sshd
 
   handlers:
-    - name: Restart sshd
-      action: service sshd state=restarted" > user.yml
+    - name: Restart ssh
+      action: service ssh state=restarted" > user.yml
 
 
 ansible-playbook -i "localhost," -c local user.yml

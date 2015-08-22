@@ -1,0 +1,3 @@
+- name: Set up authorized_keys for the deploy user
+  authorized_key: user=deploy
+                  key="{{ lookup('file', 'snapci.pub') }}"

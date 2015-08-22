@@ -1,3 +1,4 @@
 ---
+- include: 'snapci.yml'
 - include: 'service.yml'
 - include: 'java.yml'
