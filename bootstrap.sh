@@ -8,6 +8,8 @@ echo "---
   tasks:
     - user: name=deploy groups=sudo shell=/bin/bash
     - authorized_key: user=deploy key=https://github.com/joejag.keys
+    - authorized_key: user=deploy key=https://github.com/GentlemanHal.keys
+    - authorized_key: user=deploy key=https://github.com/cowley05.keys
     - name: Allow passwordles sudo
       lineinfile: \"dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'\"
     - name: Disallow root SSH access
