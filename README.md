@@ -11,5 +11,9 @@ ssh deploy@staging.nevergreen.io
 vim /home/deploy/nevergreen-infra/staging
 vim /home/deploy/nevergreen-infra/production
 
+ssh nevergreen@staging.nevergreen.io
+cd deploy/production
+wget https://github.com/build-canaries/nevergreen/releases/download/v0.7.0/nevergreen-standalone.jar
+
 ansible-playbook -i staging -c local appserver.yml
 ansible-playbook -i production -c local appserver.yml
