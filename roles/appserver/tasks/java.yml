@@ -1,7 +1,7 @@
 - name: add add-apt-repostory
   apt: pkg=software-properties-common state=present update_cache=yes
   sudo: yes 
-    
+
 - name: add add-apt-repostory
   apt: pkg=python-software-properties state=present update_cache=yes
   sudo: yes 

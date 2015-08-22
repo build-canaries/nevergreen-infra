@@ -1,5 +1,15 @@
-- user: name=nevergreen
-- authorized_key: user=nevergreen key=https://github.com/joejag.keys
-- name: Set up authorized_keys for the nevergreen user
+- name: create nevergreen user
+  user: name=nevergreen
+
+- name: add joejag ssh keys to nevergreen user
+  authorized_key: user=nevergreen key=https://github.com/joejag.keys
+
+- name: add snapci ssk keys to nevergreen user
   authorized_key: user=nevergreen
                   key="{{ lookup('file', 'snapci.pub') }}"
+
+- name: Create staging directory
+  file: path=/home/nevergreen/deploy/staging state=directory mode=0755 owner=nevergreen group=nevergreen
+
+- name: Create production directory
+  file: path=/home/nevergreen/deploy/production state=directory mode=0755 owner=nevergreen group=nevergreen
