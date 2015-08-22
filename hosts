@@ -1,6 +1,6 @@
 [haproxy]
-dev.nevergreen.io ansible_ssh_user=root www_url=dev.nevergreen.io
+staging.nevergreen.io ansible_ssh_user=root www_url=staging.nevergreen.io
 
 [appserver]
-staging.nevergreen.io env=staging port=4000 aes_key=xnf3J0xrGqqU2BtX
-staging.nevergreen.io env=production port=3000 aes_key=xnf3J0xrGqqU2BtX
+staging.nevergreen.io env=staging port=4000 aes_key=SET_ME_UP
+staging.nevergreen.io env=production port=3000 aes_key=SET_ME_UP
