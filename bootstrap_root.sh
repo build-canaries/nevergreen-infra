@@ -16,7 +16,7 @@ echo "---
 
   handlers:
     - name: Restart sshd
-      action: service sshd state=restarted" > user.yml
+      service: name=sshd state=restarted" > user.yml
 
 
 ansible-playbook -i "localhost," -c local user.yml
