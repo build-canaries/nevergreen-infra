@@ -6,4 +6,3 @@ staging.nevergreen.io
 
 [nevergreen]
 staging.nevergreen.io env=staging port=4000 aes_key=SET_ME_UP
-www.nevergreen.io env=production port=3000 aes_key=SET_ME_UP
