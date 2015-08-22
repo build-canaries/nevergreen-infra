@@ -1,0 +1,5 @@
+---
+- hosts: appserver
+  roles:
+    - appserver
+    - proxy

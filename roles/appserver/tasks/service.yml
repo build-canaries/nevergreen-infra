@@ -1,0 +1,3 @@
+- name: create init.d script
+  action: template src=nevergreen-service dest=/etc/init.d/nevergreen-{{ env }} mode=0755
+  

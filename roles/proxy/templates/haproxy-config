@@ -1,0 +1,41 @@
+global
+        log /dev/log local0 info
+        log /dev/log local1 notice
+        chroot /var/lib/haproxy
+        user haproxy
+        group haproxy
+        daemon
+
+defaults
+        log     global
+        mode    http
+        option  httplog
+        option  dontlognull
+        option  http-server-close
+        option  redispatch
+        contimeout 5000
+        clitimeout 50000
+        srvtimeout 50000
+
+frontend web
+        bind 0.0.0.0:80
+        redirect scheme https code 301 if !{ ssl_fc }
+
+frontend ssl
+        bind 0.0.0.0:443 ssl crt /etc/haproxy/certificate.pem
+
+        # Define hosts
+        acl host_staging hdr(host) -i staging.nevergreen.io
+        acl host_production hdr(host) -i nevergreen.io
+
+        ## figure out which one to use
+        use_backend staging if host_staging
+        use_backend production if host_production
+
+        default_backend production
+
+backend production
+        server 1 localhost:3000
+
+backend staging
+        server 1 localhost:4000
