@@ -2,7 +2,7 @@
   action: apt_repository repo='deb http://ppa.launchpad.net/nilya/haproxy-1.5/ubuntu quantal main' state=present
 
 - name: install haproxy
-  action: apt name=haproxy state=installed update_cache=yes
+  action: apt name=haproxy state=installed update_cache=yes force=yes
 
 - name: enable haproxy
   action: template src=haproxy-default dest=/etc/default/haproxy
