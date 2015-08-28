@@ -1,12 +1,15 @@
+# Nevergreen Infra
+
 These scripts are for recreating a nevergreen.io server which uses HTTPS.
 
 It has only been tested on Ubuntu 14.04 x64.
 
-There are three stages to the deployment:
+There are four stages to the deployment of a new box:
 
 * Bootstrap the box with Ansible and a deploy user
 * As the deploy user set up the box with Nevergreen dependencies (haproxy, java8)
 * Configure an individual Nevergreen instance
+* Install the latest Nevergreen to the production directory
 
 Each section is broken up as you require a manual task to be performed after each for security reasons. You need to upload the SSL cetificates and set up the AES keys that Nevergreen uses to encrypt user passwords.
 
