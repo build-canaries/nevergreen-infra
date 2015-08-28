@@ -61,3 +61,13 @@ ssh nevergreen@staging.nevergreen.io
 cd deploy/production
 wget https://github.com/build-canaries/nevergreen/releases/download/v0.7.0/nevergreen-standalone.jar
 ```
+
+# Deployment
+
+From your ci server you can deploy a snapshot version of Nevergreen using
+
+```
+scp nevergreen-standalone.jar nevergreen@nevergreen.io:/home/nevergreen/deploy/staging
+ssh nevergreen@nevergreen.io "sudo /etc/init.d/nevergreen-staging restart"
+```
+
