@@ -5,4 +5,4 @@ staging.nevergreen.io
 staging.nevergreen.io
 
 [nevergreen]
-staging.nevergreen.io env=production port=3000 aes_key=SET_ME_UP admin_username=nevergreen admin_password=SET_ME_UP
+staging.nevergreen.io env=production port=3000 aes_key=SET_ME_UP

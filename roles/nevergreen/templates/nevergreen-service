@@ -10,7 +10,7 @@
 ### END INIT INFO
 
 dir=""
-cmd="AES_KEY={{ aes_key }} PORT={{ port }} ADMIN_USERNAME={{ admin_username }} ADMIN_PASSWORD={{ admin_password }} java -jar /home/nevergreen/deploy/{{ env }}/nevergreen-standalone.jar"
+cmd="AES_KEY={{ aes_key }} PORT={{ port }} java -jar /home/nevergreen/deploy/{{ env }}/nevergreen-standalone.jar"
 user="nevergreen"
 
 name=`basename $0`
