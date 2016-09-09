@@ -24,15 +24,19 @@ frontend web
 frontend ssl
         bind 0.0.0.0:443 ssl crt /etc/haproxy/certificate.pem
 
-        # Define hosts
+        # define hosts
         acl host_staging hdr(host) -i staging.nevergreen.io
         acl host_production hdr(host) -i nevergreen.io
 
-        ## figure out which one to use
+        # figure out which one to use
         use_backend staging if host_staging
         use_backend production if host_production
 
         default_backend production
+
+        # add/remove headers for increased security
+        http-response del-header Server
+        http-response set-header Strict-Transport-Security "max-age=31536000; includeSubdomains"
 
 backend production
         server 1 localhost:3000
