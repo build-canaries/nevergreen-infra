@@ -4,6 +4,10 @@
 - name: add joejag ssh keys to nevergreen user
   authorized_key: user=nevergreen key=https://github.com/joejag.keys
 
-- name: add snapci ssk keys to nevergreen user
+- name: add snapci ssh keys to nevergreen user
   authorized_key: user=nevergreen
                   key="{{ lookup('file', 'snapci.pub') }}"
+
+- name: add circleci ssh keys to nevergreen user
+  authorized_key: user=nevergreen
+                  key="{{ lookup('file', 'circleci.pub') }}"
