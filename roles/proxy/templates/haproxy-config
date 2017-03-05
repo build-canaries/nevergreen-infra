@@ -13,9 +13,9 @@ defaults
         option  dontlognull
         option  http-server-close
         option  redispatch
-        contimeout 5000
-        clitimeout 50000
-        srvtimeout 50000
+        timeout connect 5000ms
+        timeout client 50000ms
+        timeout server 50000ms
 
 frontend web
         bind 0.0.0.0:80
