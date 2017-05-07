@@ -4,7 +4,7 @@ These scripts are for recreating a nevergreen.io server which uses HTTPS.
 
 It has only been tested on Ubuntu 14.04 x64.
 
-There are four stages to the deployment of a new box:
+There are several stages to the deployment of a new box:
 
 * Bootstrap the box with Ansible and a deploy user
 * As the deploy user set up the box with Nevergreen (haproxy, init.d scripts)
@@ -12,7 +12,7 @@ There are four stages to the deployment of a new box:
 
 for security reasons the stages are broken up. You need to upload the SSL cetificates and set up the AES keys that Nevergreen uses to encrypt user passwords.
 
-Once the scripts have run, nevevergreen can be run using an init.d script in /etc/init.d/nevergreen-production.
+Once the scripts have run, Nevevergreen can be run using an init.d script in /etc/init.d/nevergreen-production.
 
 # Run Guide
 
@@ -31,11 +31,9 @@ ssh deploy@staging.nevergreen.io
 git clone https://github.com/build-canaries/nevergreen-infra.git
 
 ```
-*Locally* copy the certificate (for nevergreen.io the cert is available from DNSimple).
+Certificate (for nevergreen.io the cert is available from LetsEncrypt).
 
-```
-scp certificate.pem deploy@staging.nevergreen.io:/home/deploy/nevergreen-infra/roles/proxy/templates/certificate.pem
-```
+TODO: since switching to LetsEncrypt how do we now set up the certificate?
 
 Overwrite the AES key values.
 
@@ -54,7 +52,7 @@ ansible-playbook -i production -c local appserver.yml
 
 ## Set up a production instance
 
-You could do this via Snap.CI, but if you wanted to rerun it manually, you just need to download the jar.
+You could do this via CI, but if you wanted to rerun it manually, you just need to download the jar.
 
 ```
 ssh nevergreen@staging.nevergreen.io
@@ -64,10 +62,9 @@ wget https://github.com/build-canaries/nevergreen/releases/download/v0.7.0/never
 
 # Deployment
 
-From your ci server you can deploy a snapshot version of Nevergreen using
+From your CI server you can deploy a snapshot version of Nevergreen using
 
 ```
 scp nevergreen-standalone.jar nevergreen@nevergreen.io:/home/nevergreen/deploy/staging
 ssh nevergreen@nevergreen.io "sudo /etc/init.d/nevergreen-staging restart"
 ```
-
