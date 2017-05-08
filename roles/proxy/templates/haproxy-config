@@ -29,6 +29,7 @@ frontend web
 
 frontend ssl
         bind 0.0.0.0:443 ssl crt /etc/haproxy/certificate.pem
+        http-request redirect prefix https://%[hdr(host),regsub(^www\.,,i)] code 301 if { hdr_beg(host) -i www. }
 
         # define hosts
         acl host_staging hdr(host) -i staging.nevergreen.io
