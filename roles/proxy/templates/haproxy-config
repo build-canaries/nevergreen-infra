@@ -45,6 +45,7 @@ frontend ssl
         http-response del-header Server
         http-response set-header Strict-Transport-Security "max-age=31536000; includeSubdomains"
         http-response set-header Referrer-Policy "strict-origin"
+        http-response set-header Expect-CT "max-age=0; report-uri=\"https://nevergreen.report-uri.io/r/default/ct/reportOnly\""
 
 backend production
         server 1 localhost:3000
