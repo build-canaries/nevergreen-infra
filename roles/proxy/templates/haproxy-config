@@ -6,6 +6,8 @@ global
         group haproxy
         daemon
         
+        lua-load /etc/haproxy/plugins/acme-http01-webroot.lua
+        
         # https://mozilla.github.io/server-side-tls/ssl-config-generator/
         ssl-default-bind-ciphers ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
         ssl-default-bind-options no-sslv3 no-tlsv10 no-tlsv11 no-tls-tickets
@@ -25,10 +27,12 @@ defaults
 
 frontend web
         bind 0.0.0.0:80
+        acl url_acme_http01 path_beg /.well-known/acme-challenge/
+        http-request use-service lua.acme-http01 if METH_GET url_acme_http01
         redirect scheme https code 301 if !{ ssl_fc }
 
 frontend ssl
-        bind 0.0.0.0:443 ssl crt /etc/haproxy/certificate.pem
+        bind 0.0.0.0:443 ssl crt /etc/letsencrypt/live/nevergreen.io/haproxy.pem
         http-request redirect prefix https://%[hdr(host),regsub(^www\.,,i)] code 301 if { hdr_beg(host) -i www. }
 
         # define hosts
