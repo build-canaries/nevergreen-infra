@@ -1,0 +1,10 @@
+[Unit]
+Description = Nevergreen Staging 1
+
+[Service]
+Environment = "PORT=4000"
+Type = simple
+ExecStart = /usr/bin/java -jar /home/nevergreen/deploy/staging/nevergreen-standalone.jar
+
+[Install]
+WantedBy = multi-user.target
