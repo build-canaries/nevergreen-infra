@@ -1,5 +1,0 @@
-- name: restart haproxy
-  action: service name=haproxy state=restarted
-
-- name: restart rsyslog
-  action: service name=rsyslog state=restarted

@@ -1,7 +1,0 @@
----
-- hosts: appserver
-  sudo: true
-  roles:
-    - appserver
-    - nevergreen
-    - proxy

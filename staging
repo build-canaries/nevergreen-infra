@@ -1,8 +1,0 @@
-[haproxy]
-staging.nevergreen.io
-
-[appserver]
-staging.nevergreen.io
-
-[nevergreen]
-staging.nevergreen.io env=staging port=4000 aes_key=SET_ME_UP
