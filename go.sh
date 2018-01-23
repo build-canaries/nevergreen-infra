@@ -23,7 +23,7 @@ function create_deployment_user {
 
     ssh nevergreen@$SERVER "ssh-keygen -f /home/nevergreen/.ssh/id_rsa -t rsa -N ''"
     ssh nevergreen@$SERVER "cat /home/nevergreen/.ssh/id_rsa"
-    ssh nevergreen@$SERVER "cat /home/nevergreen/.ssh/id_rsa.pub >> /home/nevergreen/.ssh/authorized_keys'"
+    ssh nevergreen@$SERVER "cat /home/nevergreen/.ssh/id_rsa.pub >> /home/nevergreen/.ssh/authorized_keys"
 }
 
 function install_java_and_haproxy {
