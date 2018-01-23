@@ -54,9 +54,9 @@ function create_service_to_run_nevergreen {
     ssh $REMOTE "sudo systemctl restart nevergreen-production-2.service"
     ssh $REMOTE "sudo systemctl restart nevergreen-staging-1.service"
 
-    echo '%nevergreen ALL=NOPASSWD: /bin/systemctl nevergreen-staging-1 *' | ssh $REMOTE "sudo EDITOR='tee -a' visudo"
-    echo '%nevergreen ALL=NOPASSWD: /bin/systemctl nevergreen-production-1 *' | ssh $REMOTE "sudo EDITOR='tee -a' visudo"
-    echo '%nevergreen ALL=NOPASSWD: /bin/systemctl nevergreen-production-2 *' | ssh $REMOTE "sudo EDITOR='tee -a' visudo"
+    echo '%nevergreen ALL=NOPASSWD: /bin/systemctl * nevergreen-staging-1' | ssh $REMOTE "sudo EDITOR='tee -a' visudo"
+    echo '%nevergreen ALL=NOPASSWD: /bin/systemctl * nevergreen-production-1' | ssh $REMOTE "sudo EDITOR='tee -a' visudo"
+    echo '%nevergreen ALL=NOPASSWD: /bin/systemctl * nevergreen-production-2' | ssh $REMOTE "sudo EDITOR='tee -a' visudo"
 }
 
 setup_github_keys_for_ssh
