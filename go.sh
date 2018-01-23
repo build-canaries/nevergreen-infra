@@ -31,7 +31,7 @@ function create_deployment_user {
 
 function install_java_and_haproxy {
     ssh $REMOTE "sudo apt-get update"
-    ssh $REMOTE "sudo apt-get install haproxy default-jre -y"
+    ssh $REMOTE "sudo apt-get install haproxy default-jre -y" # need to make this explicit about java8
 }
 
 function setup_haproxy {
@@ -43,6 +43,8 @@ function setup_haproxy {
 function download_nevergreen {
     ssh $REMOTE "sudo mkdir -p /home/nevergreen/deploy/production"
     ssh $REMOTE "sudo mkdir -p /home/nevergreen/deploy/staging"
+    
+    # Use v1.0.0 - we want to override this with the latest (or figure out how to get that here)
     ssh $REMOTE "sudo wget https://github.com/build-canaries/nevergreen/releases/download/v1.0.0/nevergreen-standalone.jar -P /tmp"
     ssh $REMOTE "sudo cp /tmp/nevergreen-standalone.jar /home/nevergreen/deploy/production"
     ssh $REMOTE "sudo cp /tmp/nevergreen-standalone.jar /home/nevergreen/deploy/staging"
@@ -50,14 +52,16 @@ function download_nevergreen {
 }
 
 function create_service_to_run_nevergreen {
-    scp *.service $REMOTE:/tmp
-    ssh $REMOTE "sudo cp /tmp/*.service /etc/systemd/system/"
+    scp *.service $REMOTE:/tmp   
+    ssh $REMOTE "sudo mv /tmp/*.service /etc/systemd/system/"
 
+    # Tells systemd that we new services
     ssh $REMOTE "sudo systemctl daemon-reload"
     ssh $REMOTE "sudo systemctl restart nevergreen-production-1.service"
     ssh $REMOTE "sudo systemctl restart nevergreen-production-2.service"
     ssh $REMOTE "sudo systemctl restart nevergreen-staging-1.service"
 
+    # Give sudo access to nevergreen user to restart the services (rather than giving nevergreen sudo to everything)
     echo '%nevergreen ALL=NOPASSWD: /bin/systemctl * nevergreen-staging-1' | ssh $REMOTE "sudo EDITOR='tee -a' visudo"
     echo '%nevergreen ALL=NOPASSWD: /bin/systemctl * nevergreen-production-1' | ssh $REMOTE "sudo EDITOR='tee -a' visudo"
     echo '%nevergreen ALL=NOPASSWD: /bin/systemctl * nevergreen-production-2' | ssh $REMOTE "sudo EDITOR='tee -a' visudo"
