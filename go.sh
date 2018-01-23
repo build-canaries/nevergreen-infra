@@ -13,7 +13,10 @@ function setup_github_keys_for_ssh {
 }
 
 function create_deployment_user {
-    ssh $REMOTE "sudo adduser --disabled-password --gecos '' nevergreen && sudo usermod -aG sudo nevergreen"
+    # Create user
+    ssh $REMOTE "sudo adduser --disabled-password --gecos '' nevergreen"
+    # Give user sudo access
+    ssh $REMOTE "sudo usermod -aG sudo nevergreen"
     
     ssh $REMOTE "sudo mkdir /home/nevergreen/.ssh"
     ssh $REMOTE "sudo touch /home/nevergreen/.ssh/authorized_keys"
