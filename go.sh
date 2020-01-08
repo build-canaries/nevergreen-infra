@@ -17,7 +17,7 @@ function create_deployment_user {
     ssh $REMOTE "sudo adduser --disabled-password --gecos '' nevergreen"
     # Give user sudo access
     ssh $REMOTE "sudo usermod -aG sudo nevergreen"
-    
+
     ssh $REMOTE "sudo mkdir /home/nevergreen/.ssh"
     ssh $REMOTE "sudo touch /home/nevergreen/.ssh/authorized_keys"
     ssh $REMOTE "sudo chown -R nevergreen:nevergreen /home/nevergreen/.ssh"
@@ -33,7 +33,7 @@ function install_java_and_haproxy {
     ssh $REMOTE "sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9"
     ssh $REMOTE "sudo apt-add-repository 'deb http://repos.azulsystems.com/ubuntu stable main'"
     ssh $REMOTE "sudo apt-get update"
-    ssh $REMOTE "sudo apt-get install zulu-12 -y"
+    ssh $REMOTE "sudo apt-get install zulu-13 -y"
 
     ssh $REMOTE "sudo apt-get install haproxy -y"
 }
@@ -47,7 +47,7 @@ function setup_haproxy {
 function download_nevergreen {
     ssh $REMOTE "sudo mkdir -p /home/nevergreen/deploy/production"
     ssh $REMOTE "sudo mkdir -p /home/nevergreen/deploy/staging"
-    
+
     # Use v3.0.0 - we want to override this with the latest (or figure out how to get that here)
     ssh $REMOTE "sudo wget https://github.com/build-canaries/nevergreen/releases/download/v3.0.0/nevergreen-standalone.jar -P /tmp"
     ssh $REMOTE "sudo cp /tmp/nevergreen-standalone.jar /home/nevergreen/deploy/production"
@@ -56,7 +56,7 @@ function download_nevergreen {
 }
 
 function create_service_to_run_nevergreen {
-    scp *.service $REMOTE:/tmp   
+    scp *.service $REMOTE:/tmp
     ssh $REMOTE "sudo mv /tmp/*.service /etc/systemd/system/"
 
     # Tells systemd that we new services
