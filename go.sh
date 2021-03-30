@@ -3,7 +3,7 @@
 set -e
 set -x
 
-SERVER="35.176.150.70"
+SERVER="35.176.75.186"
 REMOTE="ubuntu@$SERVER"
 AWS_KEY_LOCATION="~/.ssh/london-amazon.pem"
 
@@ -41,7 +41,6 @@ function install_java_and_haproxy {
 function setup_haproxy {
     scp haproxy.cfg $REMOTE:/tmp/haproxy.cfg
     ssh $REMOTE "sudo cp /tmp/haproxy.cfg /etc/haproxy/haproxy.cfg"
-    ssh $REMOTE "sudo service haproxy restart"
 }
 
 function download_nevergreen {
@@ -49,7 +48,7 @@ function download_nevergreen {
     ssh $REMOTE "sudo mkdir -p /home/nevergreen/deploy/staging"
 
     # Use v3.0.0 - we want to override this with the latest (or figure out how to get that here)
-    ssh $REMOTE "sudo wget https://github.com/build-canaries/nevergreen/releases/download/v3.0.0/nevergreen-standalone.jar -P /tmp"
+    ssh $REMOTE "sudo wget https://github.com/build-canaries/nevergreen/releases/download/v6.0.0/nevergreen-standalone.jar -P /tmp"
     ssh $REMOTE "sudo cp /tmp/nevergreen-standalone.jar /home/nevergreen/deploy/production"
     ssh $REMOTE "sudo cp /tmp/nevergreen-standalone.jar /home/nevergreen/deploy/staging"
     ssh $REMOTE "sudo chown -R nevergreen:nevergreen /home/nevergreen/deploy/"
@@ -71,9 +70,27 @@ function create_service_to_run_nevergreen {
     echo '%nevergreen ALL=NOPASSWD: /bin/systemctl * nevergreen-production-2' | ssh $REMOTE "sudo EDITOR='tee -a' visudo"
 }
 
+function setup_certbot {
+    ssh $REMOTE "sudo snap install core; sleep 1; sudo snap refresh core"
+    ssh $REMOTE "sudo snap install --classic certbot"
+    ssh $REMOTE "sudo ln -s /snap/bin/certbot /usr/bin/certbot"
+    ssh $REMOTE "sudo certbot certonly --standalone --noninteractive --agree-tos --email joe@joejag.com --cert-name nevergreen -d nevergreen.io -d staging.nevergreen.io"
+    ssh $REMOTE "sudo mkdir /etc/haproxy/certs"
+    ssh $REMOTE "sudo -E bash -c 'cat /etc/letsencrypt/live/nevergreen/fullchain.pem /etc/letsencrypt/live/nevergreen/privkey.pem > /etc/haproxy/certs/nevergreen.io.pem'"
+    ssh $REMOTE "sudo service haproxy restart"
+
+    # setup cron job to update certs
+    ssh $REMOTE "sudo systemctl enable cron"
+    scp update-certs.sh $REMOTE:/tmp/update-certs.sh
+    ssh $REMOTE "sudo cp /tmp/update-certs.sh /root/update-certs.sh"
+    ssh $REMOTE "sudo chmod +x /root/update-certs.sh"
+    ssh $REMOTE "echo '0 0 1 * * /root/update-certs.sh' | sudo crontab -"
+}
+
 setup_github_keys_for_ssh
 create_deployment_user
 install_java_and_haproxy
 setup_haproxy
 download_nevergreen
 create_service_to_run_nevergreen
+setup_certbot
