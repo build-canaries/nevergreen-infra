@@ -84,7 +84,8 @@ function setup_certbot {
     scp update-certs.sh $REMOTE:/tmp/update-certs.sh
     ssh $REMOTE "sudo cp /tmp/update-certs.sh /root/update-certs.sh"
     ssh $REMOTE "sudo chmod +x /root/update-certs.sh"
-    ssh $REMOTE "echo '0 0 1 * * /root/update-certs.sh' | sudo crontab -"
+    # “At 00:00 on every 7th day-of-month from 1 through 28.”
+    ssh $REMOTE "echo '0 0 1-28/7 * * /root/update-certs.sh' | sudo crontab -"
 }
 
 setup_github_keys_for_ssh
