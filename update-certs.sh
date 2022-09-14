@@ -7,4 +7,4 @@ certbot renew --force-renewal
 cat /etc/letsencrypt/live/nevergreen/fullchain.pem /etc/letsencrypt/live/nevergreen/privkey.pem > /etc/haproxy/certs/nevergreen.io.pem
 
 # Reload HAProxy
-service haproxy reload
+serivce haproxy restart
