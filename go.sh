@@ -47,8 +47,8 @@ function download_nevergreen {
     ssh $REMOTE "sudo mkdir -p /home/nevergreen/deploy/production"
     ssh $REMOTE "sudo mkdir -p /home/nevergreen/deploy/staging"
 
-    # Use v3.0.0 - we want to override this with the latest (or figure out how to get that here)
-    ssh $REMOTE "sudo wget https://github.com/build-canaries/nevergreen/releases/download/v6.0.0/nevergreen-standalone.jar -P /tmp"
+    # We want to override this with the latest (or figure out how to get that here)
+    ssh $REMOTE "sudo wget https://github.com/build-canaries/nevergreen/releases/download/v7.0.0/nevergreen-standalone.jar -P /tmp"
     ssh $REMOTE "sudo cp /tmp/nevergreen-standalone.jar /home/nevergreen/deploy/production"
     ssh $REMOTE "sudo cp /tmp/nevergreen-standalone.jar /home/nevergreen/deploy/staging"
     ssh $REMOTE "sudo chown -R nevergreen:nevergreen /home/nevergreen/deploy/"
